@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lp-temp1": {
+    "web-scraper-client": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/lp-temp1",
+            "outputPath": "dist/web-scraper-client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -27,9 +27,13 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
+
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -61,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "lp-temp1:build"
+            "browserTarget": "web-scraper-client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "lp-temp1:build:production"
+              "browserTarget": "web-scraper-client:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lp-temp1:build"
+            "browserTarget": "web-scraper-client:build"
           }
         },
         "test": {
@@ -106,7 +110,7 @@
         }
       }
     },
-    "lp-temp1-e2e": {
+    "web-scraper-client-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -115,11 +119,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "lp-temp1:serve"
+            "devServerTarget": "web-scraper-client:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "lp-temp1:serve:production"
+              "devServerTarget": "web-scraper-client:serve:production"
             }
           }
         },
@@ -135,5 +139,5 @@
       }
     }
   },
-  "defaultProject": "lp-temp1"
+  "defaultProject": "web-scraper-client"
 }

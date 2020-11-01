@@ -1,0 +1,19 @@
+<nav>
+    <div class="menu-icon">
+        <i-feather name="menu" (click)="onNavClick($event)" *ngIf="!mobileIsOpen; else closeNav"></i-feather>
+        <ng-template #closeNav>
+            <i-feather name="x" (click)="onNavClick($event)"></i-feather>
+        </ng-template>
+    </div>
+    <div class="logo"><a routerLink="/">Web Scraper</a></div>
+    <div class="menu">
+        <ul [ngClass]="{ 'showing': mobileIsOpen }">
+            <li>
+                <a routerLink="/" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">Discover</a>
+            </li>
+            <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+            <li><a routerLink="/web-scraper" routerLinkActive="active">Explore Now</a></li>
+        </ul>
+    </div>
+</nav>

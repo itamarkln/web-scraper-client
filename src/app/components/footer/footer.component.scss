@@ -1,0 +1,49 @@
+.footer-wrapper {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 2px solid #2a3b73;
+    background: radial-gradient(ellipse at bottom,var(--light-dark) 30%,var(--dark) 80%);
+    color: var(--light);
+
+    .footer-container {
+        margin: auto;
+        max-width: 1245px;
+
+        h1 {
+            margin-bottom: 1.6rem;
+            font-size: 2.0625rem;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0 auto .6rem auto;
+            font-size: var(--font-primary-rg);
+            opacity: .8;
+        }
+
+        .social-icon {
+            margin-top: 1.4rem;
+
+            span {
+                margin: auto .8rem;
+                cursor: pointer;
+                transition: all .3s ease;
+
+                i-feather {
+                    color: var(--light);
+                    width: 1.4rem;
+                    height: auto;
+                    transition: all .3s ease;
+                }
+
+                &:hover {
+                    i-feather {
+                        color: darken($color: #EBEBEB, $amount: 20%);
+                    }
+                }
+            }
+        }
+    }
+}

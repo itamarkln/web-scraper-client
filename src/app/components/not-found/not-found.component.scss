@@ -1,0 +1,20 @@
+.wrapper {
+    position: relative;
+    height: calc(100vh - 56px);
+    width: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--light);
+    overflow-y: hidden;
+
+    .container {
+        margin: 4rem auto;
+        padding: 0;
+        width: 100%;
+        max-width: 1245px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

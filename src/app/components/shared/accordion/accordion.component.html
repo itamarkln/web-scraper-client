@@ -1,0 +1,39 @@
+<div class="accordion-wrapper">
+    <div class="accordion-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto text-center">
+                    <span class="badge badge-warning">FAQ</span>
+                    <h2 class="title mb-4 mt-5">Frequently asked question</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ml-auto">
+                    <div class="accordion">
+                        <div class="card card-{{ i }}" *ngFor="let card of cards; let i = index">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <button
+                                        class="btn btn-link w-100 text-left"
+                                        type="button"
+                                        (click)="onToggleCard($event, card)"
+                                    >
+                                        {{ card.title }}
+                                        <div class="float-right">
+                                            <i-feather name="{{ card.isOpen ? 'chevron-up' : 'chevron-down' }}"></i-feather>
+                                        </div>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div class="collapse" [ngClass]="{ 'show': card.isOpen }">
+                                <div class="card-body">
+                                    {{ card.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
