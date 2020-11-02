@@ -10,6 +10,11 @@ import {
   Linkedin,
   ChevronDown,
   ChevronUp,
+  CheckCircle,
+  Check,
+  PlusCircle,
+  MinusCircle,
+  Search
 } from "angular-feather/icons";
 
 // Select some icons (use an object, not an array)
@@ -21,7 +26,12 @@ const icons = {
   Twitter,
   Linkedin,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Check,
+  CheckCircle,
+  PlusCircle,
+  MinusCircle,
+  Search
 };
 
 @NgModule({

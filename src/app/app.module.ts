@@ -8,7 +8,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeModule } from './components/home/home.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundModule } from './components/not-found/not-found.module';
-import { WebScraperComponent } from './components/web-scraper/web-scraper.component';
 import { WebScraperModule } from './components/web-scraper/web-scraper.module';
 
 @NgModule({

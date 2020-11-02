@@ -1,20 +1,54 @@
 .wrapper {
     position: relative;
-    height: calc(100vh - 56px);
+    height: 100%;
     width: 100%;
     min-width: 100%;
     margin: 0;
     padding: 0;
     color: var(--light);
-    overflow-y: hidden;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .container {
         margin: 4rem auto;
-        padding: 0;
+        padding: 2rem;
         width: 100%;
         max-width: 1245px;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .row {
+            .col-md-12 {
+                text-align: center;
+
+                img {
+                    padding: 0 2rem;
+                    height: auto;
+                    width: 100%;
+                }
+
+                h1 {
+                    z-index: 1;
+                    font-size: 28px;
+                    font-weight: 600;
+                    color: var(--light-gray);
+                    margin-top: 2rem;
+                    
+                    span {
+                        color: var(--primary);
+                    }
+                }
+    
+                p {
+                    margin: auto;
+                    color: var(--gray);
+                    z-index: 1;
+                    max-width: 26rem;
+                }
+            }
+        }
     }
 }
