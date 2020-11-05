@@ -17,16 +17,26 @@
             <form class="controls-container" [formGroup]="scraperForm" (ngSubmit)="onSubmit()">
                 <div class="url-control row row-input">
                     <div class="col-md-8">
-                        <input type="text" class="form-control" formControlName="url" placeholder="Enter url...." />
+                        <input type="text"
+                            [attr.disabled]="loading ? '' : null"
+                            class="form-control"
+                            formControlName="url"
+                            placeholder="Enter url...."
+                        />
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn search" (click)="onSearchByUrl($event)">
+                        <button type="button"
+                            [disabled]="loading"
+                            class="btn search"
+                            (click)="onSearchByUrl($event)"
+                        >
                             <span>Search</span>
                             <i-feather name="search"></i-feather>
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                         </button>
                     </div>
                 </div>
-                <div class="items-container" formArrayName="scrapedItems">
+                <div class="items-container" formArrayName="scrapedItems" *ngIf="!isInputsHidden">
                     <div *ngFor="let control of f.scrapedItems['controls']; let i = index">
                         <div class="row row-input item-{{ i }}">
                             <div class="col-md-4">
@@ -44,7 +54,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn submit" (click)="onSubmit()">Get Started</button>
+                        <button type="button"
+                            [disabled]="isInputsHidden"
+                            class="btn submit" 
+                            (click)="onSubmit()"
+                        >Start Scraping</button>
                     </div>
                 </div>
             </form>

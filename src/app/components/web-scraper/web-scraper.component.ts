@@ -1,5 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Swal2Service } from "src/app/common/services/swal2.service";
+import { ResponseDTO } from "src/app/models/dtos/response.dto";
+import { WebScraperService } from "./web-scraper.service";
 
 @Component({
   selector: "app-web-scraper",
@@ -27,9 +30,15 @@ export class WebScraperComponent implements OnInit {
     },
   ];
   scraperForm: FormGroup;
+  isInputsHidden: boolean;
+  loading: boolean;
   @ViewChild("webFrame") webFrame: ElementRef;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private readonly webScraperService: WebScraperService,
+    private readonly swal2Serivce: Swal2Service
+  ) {}
 
   ngOnInit(): void {
     this.scraperForm = this.formBuilder.group({
@@ -37,6 +46,8 @@ export class WebScraperComponent implements OnInit {
       scrapedItems: this.formBuilder.array([]),
     });
     this.addScrapedItem();
+    this.isInputsHidden = true;
+    this.loading = false;
   }
 
   get f() {
@@ -63,10 +74,22 @@ export class WebScraperComponent implements OnInit {
   onSearchByUrl(e) {
     console.log(this.f.url.value);
     if (!this.validateUrlRegexp.test(this.f.url.value)) {
-      
+      this.isInputsHidden = true;
+      this.swal2Serivce.swalInfo("The URL is incomplete", "Parts of the URL are missing.");
       return;
     }
-    this.webFrame.nativeElement.src = this.f.url.value || "";
-    console.log(this.webFrame.nativeElement);
+    this.loading = true;
+    this.webScraperService
+      .validateUrl(this.f.url.value)
+      .subscribe((res: ResponseDTO) => {
+        if (res.data.success) {
+          this.webFrame.nativeElement.src = this.f.url.value || "";
+          this.isInputsHidden = false;
+          this.loading = false;
+        } else {
+          this.swal2Serivce.swalError(res.data.errMsg);
+          this.loading = false;
+        }
+      });
   }
 }

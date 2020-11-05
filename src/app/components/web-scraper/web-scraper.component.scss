@@ -113,6 +113,10 @@
                                 margin-left: .6rem;
                             }
 
+                            .spinner-border {
+                                margin: auto 0 auto 1rem;
+                            }
+
                             min-width: 4rem;
                             background: var(--info);
                             background-image: var(--info-gradient);
@@ -180,6 +184,10 @@
                     0 0 8px rgba(225, 78, 202, 0.2);
                     outline: 0 none;
                 }
+
+                // &:disabled {
+                //     cursor: not-allowed;
+                // }
             }
 
             button.btn {
