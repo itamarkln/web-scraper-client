@@ -92,8 +92,17 @@ export class WebScraperComponent implements OnInit {
         if (res.data.success) {
           this.loading = false;
           this.submitted = false;
-          this.scrapedData = JSON.stringify(res.data.content, null, 4).trim();
-          this.swal2Service.swalSuccess('Scraping process has been successfully completed.');
+          if (res.data.content.length === 0) {
+            this.swal2Service.swalInfo(
+              "Reassure that you are in the correct webpage and that the selectors are filled in correctly.",
+              "Unreached scraped data"
+            );
+          } else {
+            this.scrapedData = JSON.stringify(res.data.content, null, 4).trim();
+            this.swal2Service.swalSuccess(
+              "Scraping process has been successfully completed."
+            );
+          }
         } else {
           this.loading = false;
           this.submitted = false;
@@ -130,20 +139,20 @@ export class WebScraperComponent implements OnInit {
   copyScrapedData(e) {
     this.copiedScrapedData = true;
     this.selectTextToCopy(this.scrapedData);
-    setTimeout(() => this.copiedScrapedData = false, 1000);
+    setTimeout(() => (this.copiedScrapedData = false), 1000);
   }
 
   selectTextToCopy(value: any) {
-    let selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = this.scrapedData;
+    let selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
+    selBox.value = value;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(selBox);
   }
 }
