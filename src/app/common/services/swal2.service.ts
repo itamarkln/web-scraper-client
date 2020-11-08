@@ -20,11 +20,29 @@ export class Swal2Service {
         });
     }
 
-    swalInfo(title?: string, message?: string) {
+    swalInfo(message: string, title?: string) {
         Swal.fire({
             icon: 'info',
-            title: title || 'Notice',
-            text: message || 'Something went wrong!',
+            title: title || 'Info',
+            text: message,
+            ...this.swalConfigOptions
+        });
+    }
+
+    swalWarning(message: string, title?: string) {
+        Swal.fire({
+            icon: 'warning',
+            title: title || 'Warning',
+            text: message,
+            ...this.swalConfigOptions
+        });
+    }
+
+    swalSuccess(message?: string) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: message || 'Process has been completed!',
             ...this.swalConfigOptions
         });
     }

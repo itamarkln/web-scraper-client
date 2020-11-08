@@ -14,7 +14,8 @@ import {
   Check,
   PlusCircle,
   MinusCircle,
-  Search
+  Search,
+  Copy
 } from "angular-feather/icons";
 
 // Select some icons (use an object, not an array)
@@ -31,7 +32,8 @@ const icons = {
   CheckCircle,
   PlusCircle,
   MinusCircle,
-  Search
+  Search,
+  Copy
 };
 
 @NgModule({

@@ -19,4 +19,15 @@ export class WebScraperService {
             httpHeaders
         );
     }
+
+    scrapeData(
+        url: string,
+        data: { property: string, selector: string, attribute: string }[]
+    ) {
+        return this.http.post<any>(
+            `${environment.apiUrl}/web-scraper/data`,
+            { url, data },
+            httpHeaders
+        );
+    }
 }

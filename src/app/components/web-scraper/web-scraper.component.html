@@ -14,38 +14,57 @@
                     <p>{{ scrapeStep.text }}</p>
                 </li>
             </ul>
-            <form class="controls-container" [formGroup]="scraperForm" (ngSubmit)="onSubmit()">
+            <form class="controls-container" [formGroup]="scraperForm" (ngSubmit)="onSubmit()"
+                [attr.disabled]="loading">
                 <div class="url-control row row-input">
                     <div class="col-md-8">
+                        <label for="url" class="form-label">Url</label>
                         <input type="text"
                             [attr.disabled]="loading ? '' : null"
                             class="form-control"
                             formControlName="url"
-                            placeholder="Enter url...."
                         />
                     </div>
                     <div class="col-md-4">
                         <button type="button"
-                            [disabled]="loading"
+                            [disabled]="loading && !submitted || submitted"
                             class="btn search"
                             (click)="onSearchByUrl($event)"
                         >
                             <span>Search</span>
                             <i-feather name="search"></i-feather>
-                            <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                            <span *ngIf="loading && !submitted" class="spinner-border spinner-border-sm"></span>
                         </button>
                     </div>
                 </div>
                 <div class="items-container" formArrayName="scrapedItems" *ngIf="!isInputsHidden">
-                    <div *ngFor="let control of f.scrapedItems['controls']; let i = index">
+                    <div *ngFor="let control of f.scrapedItems?.controls; let i = index"
+                        [formGroup]="scrapedItems.controls[i]">
                         <div class="row row-input item-{{ i }}">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Enter property name" />
+                            <div class="col-md-3">
+                                <label for="property" class="form-label">Property</label>
+                                <input formControlName="property"
+                                    type="text"
+                                    class="form-control" />
                             </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Enter element selector" />
+                            <div class="col-md-3">
+                                <label for="selector" class="form-label">Selector</label>
+                                <input formControlName="selector"
+                                    type="text"
+                                    class="form-control" />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <label for="type" class="form-label">Type</label>
+                                <select formControlName="type" class="form-control">
+                                    <option value="" selected disabled hidden></option>
+                                    <option value="textContent">Text</option>
+                                    <option value="textContent">Button</option>
+                                    <option value="src">Image</option>
+                                    <option value="src">Media</option>
+                                    <option value="href">Link</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
                                 <i-feather name="plus-circle" (click)="addScrapedItem()"></i-feather>
                                 <i-feather name="minus-circle" *ngIf="i > 0;" (click)="removeScrapedItem(i)"></i-feather>
                             </div>
@@ -55,16 +74,34 @@
                 <div class="row">
                     <div class="col-md-12">
                         <button type="button"
-                            [disabled]="isInputsHidden"
+                            [disabled]="isInputsHidden || submitted"
                             class="btn submit" 
                             (click)="onSubmit()"
-                        >Start Scraping</button>
+                        >
+                            <span>Start Scraping</span>
+                            <span *ngIf="loading && submitted" class="spinner-border spinner-border-sm"></span>
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-md-5 col-sm-12 right">
             <iframe #webFrame width="100%" height="100%" [src]="'' | safeUrl"></iframe>
+        </div>
+    </div>
+    <div class="row" *ngIf="scrapedData">
+        <div class="col-md-12 col-sm-10 scraped-data-container">
+            <h2>Scraped Data</h2>
+            <div class="scraped-data-wrapper">
+                <div class="copy-data" (click)="copyScrapedData($event)"
+                    [ngStyle]="{ 'color': copiedScrapedData ? '#00f2c3' : '#9a9a9a' }">
+                    <span>{{ !copiedScrapedData ? 'Copy' : 'Copied' }}</span>
+                    <i-feather name="copy"></i-feather>
+                </div>
+                <pre class="scraped-data" #copiedData>
+                    <code>{{ scrapedData.trim() }}</code>
+                </pre>
+            </div>
         </div>
     </div>
 </div>

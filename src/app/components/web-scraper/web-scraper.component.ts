@@ -30,14 +30,19 @@ export class WebScraperComponent implements OnInit {
     },
   ];
   scraperForm: FormGroup;
+  scrapedItems: FormArray;
   isInputsHidden: boolean;
   loading: boolean;
+  submitted: boolean;
+  scrapedData: any;
+  copiedScrapedData: boolean;
   @ViewChild("webFrame") webFrame: ElementRef;
+  @ViewChild("copiedData") dataToCopy: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
     private readonly webScraperService: WebScraperService,
-    private readonly swal2Serivce: Swal2Service
+    private readonly swal2Service: Swal2Service
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +53,8 @@ export class WebScraperComponent implements OnInit {
     this.addScrapedItem();
     this.isInputsHidden = true;
     this.loading = false;
+    this.submitted = false;
+    this.copiedScrapedData = false;
   }
 
   get f() {
@@ -55,10 +62,12 @@ export class WebScraperComponent implements OnInit {
   }
 
   addScrapedItem() {
-    (<FormArray>this.f.scrapedItems).push(
+    this.scrapedItems = <FormArray>this.f.scrapedItems;
+    this.scrapedItems.push(
       this.formBuilder.group({
-        propName: ["", Validators.required],
+        property: ["", Validators.required],
         selector: ["", Validators.required],
+        type: ["", Validators.required],
       })
     );
   }
@@ -68,14 +77,39 @@ export class WebScraperComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.scraperForm.value);
+    if (this.scraperForm.invalid) {
+      this.swal2Service.swalWarning(
+        "Be aware to fill in all input fields",
+        "Validation"
+      );
+      return;
+    }
+    this.loading = true;
+    this.submitted = true;
+    this.webScraperService
+      .scrapeData(this.f.url.value, this.f.scrapedItems.value)
+      .subscribe((res: ResponseDTO) => {
+        if (res.data.success) {
+          this.loading = false;
+          this.submitted = false;
+          this.scrapedData = JSON.stringify(res.data.content, null, 4).trim();
+          this.swal2Service.swalSuccess('Scraping process has been successfully completed.');
+        } else {
+          this.loading = false;
+          this.submitted = false;
+          this.swal2Service.swalError(res.data.errMsg);
+        }
+      });
   }
 
   onSearchByUrl(e) {
     console.log(this.f.url.value);
     if (!this.validateUrlRegexp.test(this.f.url.value)) {
       this.isInputsHidden = true;
-      this.swal2Serivce.swalInfo("The URL is incomplete", "Parts of the URL are missing.");
+      this.swal2Service.swalInfo(
+        "Parts of the URL are missing.",
+        "The URL is incomplete"
+      );
       return;
     }
     this.loading = true;
@@ -87,9 +121,29 @@ export class WebScraperComponent implements OnInit {
           this.isInputsHidden = false;
           this.loading = false;
         } else {
-          this.swal2Serivce.swalError(res.data.errMsg);
           this.loading = false;
+          this.swal2Service.swalError(res.data.errMsg);
         }
       });
+  }
+
+  copyScrapedData(e) {
+    this.copiedScrapedData = true;
+    this.selectTextToCopy(this.scrapedData);
+    setTimeout(() => this.copiedScrapedData = false, 1000);
+  }
+
+  selectTextToCopy(value: any) {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this.scrapedData;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 }
